@@ -1,450 +1,441 @@
+
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>PDF Tools — Toolbox v2</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
+<title>PDF Tools — PDF Tools</title>
+
+<!-- Ad script (as provided) - top & bottom; kept but also provide visible fallback iframe below -->
+<script type="text/javascript">
+	atOptions = {
+		'key' : 'c533f92842a99236b1cb6736b289861e',
+		'format' : 'iframe',
+		'height' : 50,
+		'width' : 320,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/c533f92842a99236b1cb6736b289861e/invoke.js"></script>
+
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
 <style>
-:root{--bg:#f3f6ff;--card:#fff;--accent:#5b46ff;--accent-2:#ff6b6b;--muted:#6b7280}
-*{box-sizing:border-box}html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#eef2ff 0%, #f7fbff 100%)}.container{max-width:980px;margin:18px auto;padding-bottom:180px}.header{display:flex;align-items:center;gap:12px;padding:18px;border-radius:12px;background:linear-gradient(90deg,var(--accent), #7f6bff);color:#fff;box-shadow:0 10px 30px rgba(91,70,255,0.14)}.logo-wrap{display:flex;align-items:center;gap:12px}.logo-box{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#fff,rgba(255,255,255,0.08));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(0,0,0,0.08)}.header h1{font-size:18px;margin:0}.header small{display:block;font-size:12px;opacity:0.95}.grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}.card{background:var(--card);border-radius:14px;padding:16px;box-shadow:0 8px 28px rgba(18,23,56,0.06)}.card h2{margin:0 0 8px;font-size:16px}.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}button.btn{background:var(--accent);color:#fff;border:0;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:700}button.btn.alt{background:#444}button.btn.warn{background:var(--accent-2)}.small{font-size:13px;color:var(--muted)}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.progress{height:8px;background:#eee;border-radius:8px;overflow:hidden;margin-top:8px}.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#9c86ff);width:0%}textarea#txtEditor{width:100%;min-height:220px;border-radius:10px;border:1px solid #e6e9f0;padding:12px;font-family:inherit;font-size:14px;resize:vertical}.bottom-ad{position:fixed;left:0;right:0;bottom:0;height:80px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;justify-content:center;z-index:999}.bottom-ad .inner{max-width:980px;width:100%;padding:6px}.footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}.meta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;margin-top:8px}.badge{background:#f1f3ff;color:var(--accent);padding:6px 8px;border-radius:8px;font-weight:700}.history-list, .order-list{max-height:220px;overflow:auto;padding:6px;border-radius:8px;background:#fbfbff;border:1px solid #f0f0ff}.history-item{display:flex;justify-content:space-between;gap:8px;padding:8px;border-bottom:1px solid #f0f0ff}.order-row{display:flex;align-items:center;gap:8px;padding:8px;border-bottom:1px dashed #eee}.order-row.done{opacity:0.5;text-decoration:line-through}.small-muted{font-size:12px;color:#888}.btn-small{padding:6px 8px;border-radius:8px;font-weight:700;border:0;cursor:pointer}.btn-x{background:#eee}.btn-green{background:#0a7f45;color:#fff}.order-controls{display:flex;gap:6px}
-@media(min-width:900px){.grid{grid-template-columns:1fr 380px}}
+  :root{
+    --bg: linear-gradient(135deg,#f9f6ff,#e6f7ff);
+    --card:#ffffff;
+    --accent:#6c5ce7;
+    --accent-2:#00b894;
+    --muted:#6b7280;
+    --radius:14px;
+    --glass: rgba(255,255,255,0.7);
+  }
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial; background:var(--bg); color:#111;}
+  .app{
+    max-width:980px;margin:18px auto;padding:18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(250,250,255,0.9));
+    border-radius:18px; box-shadow: 0 8px 30px rgba(15,15,40,0.08); overflow:hidden;
+  }
+  header{display:flex;align-items:center;justify-content:space-between;padding:12px 8px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .logo{
+    width:68px;height:68px;background:linear-gradient(135deg,var(--accent),#ff7ab6);display:flex;align-items:center;justify-content:center;border-radius:12px;box-shadow:0 6px 18px rgba(108,92,231,0.18);
+  }
+  .logo svg{width:52px;height:52px;filter: drop-shadow(0 6px 12px rgba(108,92,231,0.12));}
+  h1{font-size:20px;margin:0}
+  p.sub{margin:0;font-size:12px;color:var(--muted)}
+  .menuBtn{background:transparent;border:0;padding:10px;margin-right:6px;border-radius:8px;cursor:pointer}
+  /* content */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;padding:16px;}
+  .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(16,24,40,0.04);display:flex;flex-direction:column;gap:10px;}
+  label{font-weight:600;font-size:14px}
+  input[type=file]{display:block}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{background:linear-gradient(90deg,var(--accent),#ff7ab6);border:0;color:white;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+  .btn.secondary{background:linear-gradient(90deg,#00cec9,#00b894)}
+  .muted{color:var(--muted);font-size:13px}
+  footer{padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .small{font-size:12px;color:var(--muted)}
+  .ad-slot{display:flex;justify-content:center;align-items:center;background:transparent;padding:6px;border-radius:8px}
+  .three-dots-menu{position:relative}
+  .menu-pop{position:absolute;right:0;top:calc(100% + 6px);background:white;border-radius:10px;padding:8px;box-shadow:0 8px 24px rgba(12,20,40,0.12);display:none;min-width:200px;z-index:20}
+  .menu-pop a{display:block;padding:8px;border-radius:8px;color:#111;text-decoration:none;font-weight:600}
+  .menu-pop a:hover{background: #f2f6ff}
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#0f1724;color:white;padding:8px 12px;border-radius:10px;display:none;z-index:50}
+  input[type=number]{width:100%;padding:8px;border-radius:8px;border:1px solid #eee}
+  .hint{font-size:12px;color:var(--muted)}
+  .logo-text{font-weight:800;letter-spacing:0.4px}
+  @media (max-width:420px){.brand p.sub{display:none}}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <div class="logo-wrap">
-      <div class="logo-box" aria-hidden="true">
-        <!-- Simple SVG logo (generic, "toolbox" style). Not "mindafraid" text. -->
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="2" y="7" width="20" height="11" rx="2" fill="white" opacity="0.95"/>
-          <path d="M4 10h16" stroke="#5b46ff" stroke-width="1.4" stroke-linecap="round"/>
-          <path d="M9 4h6v3H9z" fill="#5b46ff"/>
-          <circle cx="7" cy="13.5" r="1.2" fill="#5b46ff"/>
-          <circle cx="17" cy="13.5" r="1.2" fill="#5b46ff"/>
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="logo" title="PDF Tools">
+        <!-- SVG text logo (simple) -->
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PDF Tools">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#6c5ce7"/>
+              <stop offset="1" stop-color="#ff7ab6"/>
+            </linearGradient>
+          </defs>
+          <rect rx="20" width="200" height="200" fill="url(#g1)"/>
+          <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Verdana" font-weight="700" font-size="62" fill="white">PDF</text>
         </svg>
       </div>
       <div>
-        <h1>PDF Tools — Merge • Split • Convert</h1>
-        <small>Made by <strong>Saikiran Jinde</strong> • <a href="https://instagram.com/saikiran.jinde_2706" style="color:rgba(255,255,255,0.95);text-decoration:underline" target="_blank">@saikiran.jinde_2706</a></small>
+        <h1 class="logo-text">PDF Tools</h1>
+        <p class="sub">Made with ❤️ for day to day uses</p>
       </div>
     </div>
-    <div style="margin-left:auto" class="badge">v1.2</div>
-  </div>
 
-  <div class="grid">
-
-    <div>
-      <!-- Merge -->
-      <div class="card" id="mergeCard">
-        <h2>Merge PDFs</h2>
-        <div class="small">Select multiple PDF files to merge in order.</div>
-        <div class="controls">
-          <input id="mergeInput" type="file" accept="application/pdf" multiple />
-          <button id="mergeBtn" class="btn">Merge</button>
-          <button id="mergeClear" class="btn alt">Clear</button>
-        </div>
-        <div class="progress"><i id="mergeProg"></i></div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="ad-slot" id="top-ad-slot" aria-hidden="false" style="width:320px;height:50px;">
+        <!-- Fallback visible ad iframe so user ALWAYS sees an ad placeholder -->
+        <iframe style="border:0;width:320px;height:50px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06)" 
+                srcdoc="<div style='font-family:Arial,sans-serif;display:flex;align-items:center;justify-content:center;height:100%;color:#666'>Advertisement</div>"></iframe>
       </div>
 
-      <!-- Split -->
-      <div class="card" style="margin-top:12px">
-        <h2>Split PDF → single page files</h2>
-        <div class="small">Pick one PDF to split into separate page PDFs.</div>
-        <div class="controls">
-          <input id="splitInput" type="file" accept="application/pdf" />
-          <button id="splitBtn" class="btn">Split</button>
-          <button id="splitClear" class="btn alt">Clear</button>
-        </div>
-        <div class="progress"><i id="splitProg"></i></div>
-      </div>
-
-      <!-- Images -> PDF -->
-      <div class="card" style="margin-top:12px">
-        <h2>Images → PDF</h2>
-        <div class="small">Select images (JPG/PNG) — order preserved.</div>
-        <div class="controls">
-          <input id="imgToPdfInput" type="file" accept="image/*" multiple />
-          <button id="imgToPdfBtn" class="btn">Create PDF</button>
-          <button id="imgToPdfClear" class="btn alt">Clear</button>
+      <div class="three-dots-menu">
+        <button class="menuBtn" id="menuToggle" aria-label="menu">⋮</button>
+        <div class="menu-pop" id="menuPop">
+          <a href="#" id="aboutBtn">About</a>
+          <a href="#" id="instaBtn">Instagram</a>
         </div>
       </div>
-
-      <!-- Compress -->
-      <div class="card" style="margin-top:12px">
-        <h2>Compress PDF (image-based)</h2>
-        <div class="small">Renders pages as JPEG and rebuilds PDF. Best for scanned PDFs.</div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <input id="compressInput" type="file" accept="application/pdf" />
-          <label style="margin-left:8px;font-weight:600">Quality:</label>
-          <input id="qualityRange" type="range" min="10" max="100" value="70" />
-          <span id="qualityLabel" class="small">70%</span>
-        </div>
-        <div class="controls" style="margin-top:8px">
-          <button id="compressBtn" class="btn">Compress</button>
-          <button id="compressClear" class="btn alt">Clear</button>
-        </div>
-        <div class="progress"><i id="compressProg"></i></div>
-      </div>
-
     </div>
+  </header>
 
-    <aside>
+  <main>
+    <section class="grid">
+      <!-- Image to PDF -->
       <div class="card">
-        <h2>History</h2>
-        <div class="small">Recent generated/downloaded files (saved on your device this session).</div>
-        <div id="historyBox" class="history-list" aria-live="polite"></div>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <button id="clearHistory" class="btn alt">Clear history</button>
-          <button id="exportHistory" class="btn">Export history (.json)</button>
+        <label>Image → PDF</label>
+        <div class="muted">Select one or more images (jpg/png). Order will be preserved.</div>
+        <input type="file" id="imgFiles" accept="image/*" multiple>
+        <div class="row">
+          <button class="btn" id="img2pdf">Convert Images to PDF</button>
+          <button class="btn secondary" id="imgPreview">Preview First</button>
         </div>
+        <div class="hint">Tip: Use portrait images for best result. Converted file saved as <code>pdftools_images_to_pdf.pdf</code></div>
       </div>
 
-      <div class="card" style="margin-top:12px">
-        <h2>Order List</h2>
-        <div class="small">Add tasks or steps. Use this as your queue.</div>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <input id="orderInput" placeholder="Add task (e.g. Merge invoices)" style="flex:1;padding:8px;border-radius:8px;border:1px solid #eee">
-          <button id="addOrder" class="btn">Add</button>
+      <!-- TXT to PDF -->
+      <div class="card">
+        <label>.txt → PDF</label>
+        <div class="muted">Choose a .txt file or paste text below.</div>
+        <input type="file" id="txtFile" accept=".txt" />
+        <textarea id="txtArea" rows="6" style="width:100%;padding:8px;border-radius:8px;border:1px solid #eee" placeholder="Or paste text here..."></textarea>
+        <div class="row">
+          <button class="btn" id="txt2pdf">Convert Text to PDF</button>
+          <button class="btn secondary" id="clearText">Clear</button>
         </div>
-        <div id="orderBox" class="order-list" style="margin-top:8px"></div>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <button id="clearOrders" class="btn alt">Clear orders</button>
-        </div>
+        <div class="hint">Tip: For long text, conversion will wrap lines automatically.</div>
       </div>
 
-      <div class="card" style="margin-top:12px">
-        <h2>About & Ads</h2>
-        <p class="small">Made by <strong>Saikiran Jinde</strong>. Files are processed locally in your browser.</p>
-        <p class="small"><b>Instagram:</b> <a href="https://instagram.com/saikiran.jinde_2706" target="_blank">@saikiran.jinde_2706</a></p>
-        <div id="adsBox" style="margin-top:10px;text-align:center">
-          <!-- ad code -->
-          <script type="text/javascript">
-              atOptions = {
-                  'key' : 'c533f92842a99236b1cb6736b289861e',
-                  'format' : 'iframe',
-                  'height' : 50,
-                  'width' : 320,
-                  'params' : {}
-              };
-          </script>
-          <script type="text/javascript" src="//www.highperformanceformat.com/c533f92842a99236b1cb6736b289861e/invoke.js"></script>
+      <!-- PDF Splitter -->
+      <div class="card">
+        <label>PDF Split / Extract Pages</label>
+        <div class="muted">Choose a PDF and extract a range of pages into a new PDF.</div>
+        <input type="file" id="pdfSplitFile" accept="application/pdf" />
+        <div style="display:flex;gap:8px;">
+          <input type="number" id="splitStart" placeholder="Start page (1)" min="1"/>
+          <input type="number" id="splitEnd" placeholder="End page (1)" min="1"/>
         </div>
+        <div class="row">
+          <button class="btn" id="splitPdfBtn">Extract Range → PDF</button>
+          <button class="btn secondary" id="countPagesBtn">Load & Count Pages</button>
+        </div>
+        <div class="hint" id="splitHint">Load a PDF to see page count.</div>
       </div>
-    </aside>
 
-  </div>
+      <!-- PDF Merge -->
+      <div class="card">
+        <label>PDF Merge (Combine)</label>
+        <div class="muted">Select multiple PDF files; they will be merged in the chosen order.</div>
+        <input type="file" id="pdfMergeFiles" accept="application/pdf" multiple />
+        <div class="row">
+          <button class="btn" id="mergeBtn">Merge PDFs</button>
+        </div>
+        <div class="hint">Merged file will be saved as <code>pdftools_merged.pdf</code></div>
+      </div>
 
-  <div class="footer">
-    <div>© <strong>Saikiran Jinde</strong> — PDF Tools</div>
-    <div class="meta">
-      <div class="small">Version: 1.2</div>
-      <div class="small">If save fails: use "Open in new tab" (browser menu) to download.</div>
+    </section>
+  </main>
+
+  <footer>
+    <div style="display:flex;gap:12px;align-items:center">
+      <div class="small">Made with ❤️ — PDF Tools</div>
+      <div class="small muted">by Saikiran</div>
     </div>
-  </div>
+
+    <div class="ad-slot" id="bottom-ad-slot" style="width:320px;height:50px;">
+      <iframe style="border:0;width:320px;height:50px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06)" 
+              srcdoc="<div style='font-family:Arial,sans-serif;display:flex;align-items:center;justify-content:center;height:100%;color:#666'>Advertisement</div>"></iframe>
+    </div>
+  </footer>
 </div>
 
-<!-- bottom ad -->
-<div class="bottom-ad" aria-hidden="false">
-  <div class="inner" id="bottomAdInner">
-    <script type="text/javascript">
-        atOptions = {
-            'key' : 'c533f92842a99236b1cb6736b289861e',
-            'format' : 'iframe',
-            'height' : 50,
-            'width' : 320,
-            'params' : {}
-        };
-    </script>
-    <script type="text/javascript" src="//www.highperformanceformat.com/c533f92842a99236b1cb6736b289861e/invoke.js"></script>
-  </div>
-</div>
-
-<!-- libs -->
-<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://unpkg.com/pdfjs-dist@2.13.216/build/pdf.min.js"></script>
-
-<script>
-/* Basic helpers & state (trimmed: removed PDF->TXT related parts) */
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@2.13.216/build/pdf.worker.min.js';
-const sessionFiles = {};
-const HISTORY_KEY = 'pdftools_history_v2';
-const ORDER_KEY = 'pdftools_orders_v2';
-
-function bytesToSize(bytes){ if(!bytes) return '0 B'; const k=1024, dm=2, sizes=['B','KB','MB','GB']; let i=Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(dm)) + ' ' + sizes[i]; }
-function escapeHtml(s){ if(!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-/* save blob fallback as in previous version */
-async function saveBlobSmart(blob, suggestedName){
-  if(window.showSaveFilePicker){
-    try{
-      const opts = {types:[{description:'PDF file',accept:{'application/pdf':['.pdf']}}], suggestedName};
-      const handle = await window.showSaveFilePicker(opts);
-      const writable = await handle.createWritable();
-      await writable.write(blob);
-      await writable.close();
-      recordHistory('Saved', suggestedName, blob.size); storeSessionFile(suggestedName, blob);
-      alert('Saved to device.');
-      return;
-    }catch(e){ console.info('FSAPI save cancelled/failed', e); }
-  }
-  try{
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = suggestedName || 'file.pdf'; document.body.appendChild(a); a.click(); a.remove();
-    storeSessionFile(suggestedName, blob, url);
-    recordHistory('Downloaded', suggestedName, blob.size);
-    setTimeout(()=>{ try{ window.open(url, '_blank'); }catch(e){} }, 600);
-    setTimeout(()=>{ try{ URL.revokeObjectURL(url); }catch(e){} }, 30000);
-    return;
-  }catch(e){ console.error('download fallback failed', e); }
-  try{
-    const reader = new FileReader();
-    reader.onload = ()=>{ window.open(reader.result,'_blank'); recordHistory('Opened', suggestedName, blob.size); storeSessionFile(suggestedName, blob); };
-    reader.readAsDataURL(blob);
-  }catch(e){ alert('Unable to save file. Try desktop Chrome.'); console.error(e); }
-}
-
-function storeSessionFile(name, blob, existingUrl){
-  try{
-    const url = existingUrl || URL.createObjectURL(blob);
-    sessionFiles[name] = { url, size: blob.size, ts: Date.now() };
-  }catch(e){ console.warn('storeSessionFile failed', e); }
-}
-
-/* History & orders */
-function loadHistory(){ try{ return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }catch(e){ return []; } }
-function saveHistory(arr){ try{ localStorage.setItem(HISTORY_KEY, JSON.stringify(arr)); }catch(e){} }
-function recordHistory(action, filename, size){
-  const arr = loadHistory();
-  arr.unshift({action, filename, size, when: Date.now()});
-  if(arr.length>60) arr.splice(60);
-  saveHistory(arr); renderHistory();
-}
-function renderHistory(){
-  const box = document.getElementById('historyBox');
-  const arr = loadHistory();
-  if(arr.length===0){ box.innerHTML = '<div class="small">No history yet.</div>'; return; }
-  box.innerHTML = '';
-  for(const it of arr){
-    const wrap = document.createElement('div'); wrap.className='history-item';
-    const left = document.createElement('div'); left.innerHTML = '<div style="font-weight:700">'+escapeHtml(it.filename)+'</div><div class="small-muted">'+it.action+' • '+bytesToSize(it.size)+'</div>';
-    const right = document.createElement('div');
-    const openBtn = document.createElement('button'); openBtn.className='btn-small btn-x'; openBtn.textContent='Open';
-    openBtn.onclick = ()=>{ if(sessionFiles[it.filename] && sessionFiles[it.filename].url){ window.open(sessionFiles[it.filename].url,'_blank'); } else alert('File is available only for this session. Re-generate to download again.'); };
-    const dlBtn = document.createElement('button'); dlBtn.className='btn-small btn-x'; dlBtn.textContent='Download';
-    dlBtn.onclick = ()=>{ if(sessionFiles[it.filename] && sessionFiles[it.filename].url){ const a=document.createElement('a'); a.href=sessionFiles[it.filename].url; a.download=it.filename; a.click(); } else alert('File is available only for this session. Re-generate to download again.'); };
-    const delBtn = document.createElement('button'); delBtn.className='btn-small btn-x'; delBtn.textContent='Remove';
-    delBtn.onclick = ()=>{ const arr2 = loadHistory().filter(x=>!(x.when===it.when && x.filename===it.filename)); saveHistory(arr2); renderHistory(); };
-    right.appendChild(openBtn); right.appendChild(dlBtn); right.appendChild(delBtn);
-    wrap.appendChild(left); wrap.appendChild(right); box.appendChild(wrap);
-  }
-}
-
-function loadOrders(){ try{ return JSON.parse(localStorage.getItem(ORDER_KEY) || '[]'); }catch(e){ return []; } }
-function saveOrders(arr){ try{ localStorage.setItem(ORDER_KEY, JSON.stringify(arr)); }catch(e){} }
-function renderOrders(){
-  const box = document.getElementById('orderBox'); const arr = loadOrders();
-  if(arr.length===0){ box.innerHTML = '<div class="small">No orders/tasks yet.</div>'; return; }
-  box.innerHTML = '';
-  arr.forEach((o, idx)=>{
-    const row = document.createElement('div'); row.className='order-row'+(o.done? ' done':'');
-    const left = document.createElement('div'); left.style.flex='1';
-    left.innerHTML = '<div style="font-weight:700">'+escapeHtml(o.text)+'</div><div class="small-muted">'+(new Date(o.ts)).toLocaleString()+'</div>';
-    const controls = document.createElement('div'); controls.className='order-controls';
-    const up = document.createElement('button'); up.className='btn-small btn-x'; up.textContent='↑'; up.onclick=()=>{ if(idx>0){ const a=arr.splice(idx,1)[0]; arr.splice(idx-1,0,a); saveOrders(arr); renderOrders(); } };
-    const down = document.createElement('button'); down.className='btn-small btn-x'; down.textContent='↓'; down.onclick=()=>{ if(idx < arr.length-1){ const a=arr.splice(idx,1)[0]; arr.splice(idx+1,0,a); saveOrders(arr); renderOrders(); } };
-    const done = document.createElement('button'); done.className='btn-small btn-green'; done.textContent = o.done? 'Undo' : 'Done'; done.onclick=()=>{ arr[idx].done = !arr[idx].done; saveOrders(arr); renderOrders(); };
-    const rem = document.createElement('button'); rem.className='btn-small btn-x'; rem.textContent='X'; rem.onclick=()=>{ arr.splice(idx,1); saveOrders(arr); renderOrders(); };
-    controls.appendChild(up); controls.appendChild(down); controls.appendChild(done); controls.appendChild(rem);
-    row.appendChild(left); row.appendChild(controls); box.appendChild(row);
-  });
-}
-
-/* order handlers */
-document.getElementById('addOrder').addEventListener('click', ()=>{
-  const txt = document.getElementById('orderInput').value.trim(); if(!txt){ alert('Type a task'); return; }
-  const arr = loadOrders(); arr.push({text:txt, ts: Date.now(), done:false}); saveOrders(arr); document.getElementById('orderInput').value=''; renderOrders();
-});
-document.getElementById('clearOrders').addEventListener('click', ()=>{ if(confirm('Clear all orders?')){ saveOrders([]); renderOrders(); } });
-
-/* history export/clear */
-document.getElementById('clearHistory').addEventListener('click', ()=>{ if(confirm('Clear history?')){ saveHistory([]); renderHistory(); }});
-document.getElementById('exportHistory').addEventListener('click', ()=>{ const data = JSON.stringify(loadHistory(), null, 2); const blob = new Blob([data], {type:'application/json'}); saveBlobSmart(blob, 'pdftools-history.json'); });
-
-/* Core operations (merge / split / images->pdf / compress) */
-const mergeInput = document.getElementById('mergeInput'), mergeBtn=document.getElementById('mergeBtn'), mergeProgEl=document.getElementById('mergeProg');
-mergeBtn.addEventListener('click', async ()=>{
-  const files = Array.from(mergeInput.files || []);
-  if(files.length < 2){ alert('Select 2 or more PDFs to merge'); return; }
-  mergeProgEl.style.width='2%';
-  try{
-    setBusy(true);
-    const merged = await PDFLib.PDFDocument.create();
-    for(let i=0;i<files.length;i++){
-      const f = files[i];
-      const arr = await f.arrayBuffer();
-      const doc = await PDFLib.PDFDocument.load(arr);
-      const pages = await merged.copyPages(doc, doc.getPageIndices());
-      pages.forEach(p=>merged.addPage(p));
-      mergeProgEl.style.width = Math.round(((i+1)/files.length)*90) + '%';
-    }
-    const out = await merged.save();
-    const blob = new Blob([out], {type:'application/pdf'});
-    const fname = 'merged-' + Date.now() + '.pdf';
-    await saveBlobSmart(blob, fname);
-    mergeProgEl.style.width='100%';
-    setTimeout(()=>mergeProgEl.style.width='0%',700);
-    setBusy(false);
-  }catch(e){ setBusy(false); alert('Merge failed: '+e.message); mergeProgEl.style.width='0%'; console.error(e); }
-});
-
-/* Split */
-const splitInput = document.getElementById('splitInput'), splitBtn=document.getElementById('splitBtn'), splitProg=document.getElementById('splitProg');
-splitBtn.addEventListener('click', async ()=>{
-  const f = splitInput.files[0]; if(!f){ alert('Select a PDF'); return; }
-  splitProg.style.width='2%';
-  try{
-    setBusy(true);
-    const arrBuf = await f.arrayBuffer();
-    const doc = await PDFLib.PDFDocument.load(arrBuf);
-    const total = doc.getPageCount();
-    for(let i=0;i<total;i++){
-      const newDoc = await PDFLib.PDFDocument.create();
-      const [copied] = await newDoc.copyPages(doc, [i]);
-      newDoc.addPage(copied);
-      const out = await newDoc.save();
-      const blob = new Blob([out], {type:'application/pdf'});
-      const fname = f.name.replace(/\.pdf$/i,'') + '-page-' + (i+1) + '.pdf';
-      await saveBlobSmart(blob, fname);
-      splitProg.style.width = Math.round(((i+1)/total)*100)+'%';
-      await new Promise(r=>setTimeout(r,80));
-    }
-    splitProg.style.width='0%';
-    setBusy(false);
-  }catch(e){ setBusy(false); alert('Split failed: '+e.message); splitProg.style.width='0%'; console.error(e); }
-});
-
-/* Images -> PDF */
-const imgToPdfInput=document.getElementById('imgToPdfInput'), imgToPdfBtn=document.getElementById('imgToPdfBtn');
-imgToPdfBtn.addEventListener('click', async ()=>{
-  const files = Array.from(imgToPdfInput.files || []);
-  if(files.length === 0){ alert('Select images'); return; }
-  try{
-    setBusy(true);
- const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({unit:'px',format:'a4'});
-    let first=true;
-    for(let i=0;i<files.length;i++){
-      const f = files[i];
-      const durl = await fileToDataURL(f);
-      const img = new Image(); img.src = durl;
-      await new Promise((res,rej)=>{ img.onload=res; img.onerror=rej; });
-      const pageW = doc.internal.pageSize.getWidth(), pageH = doc.internal.pageSize.getHeight();
-      const ratio = Math.min(pageW / img.width, pageH / img.height);
-      const w = img.width * ratio, h = img.height * ratio, x = (pageW - w)/2, y = (pageH - h)/2;
-      if(!first) doc.addPage();
-      const fmt = (f.type && f.type.indexOf('png')!==-1) ? 'PNG' : 'JPEG';
-      doc.addImage(durl, fmt, x, y, w, h);
-      first=false;
-    }
-    const out = doc.output('blob');
-    const fname = 'images-to-pdf-' + Date.now() + '.pdf';
-    await saveBlobSmart(out, fname);
-    setBusy(false);
-  }catch(e){ setBusy(false); alert('Create PDF failed: '+e.message); console.error(e); }
-});
-
-/* Compress */
-const compressInput=document.getElementById('compressInput'), compressBtn=document.getElementById('compressBtn'), qualityRange=document.getElementById('qualityRange'), qualityLabel=document.getElementById('qualityLabel'), compressProg=document.getElementById('compressProg');
-qualityRange.addEventListener('input', ()=>qualityLabel.textContent = qualityRange.value + '%');
-compressBtn.addEventListener('click', async ()=>{
-  const f = compressInput.files[0]; if(!f){ alert('Select PDF'); return; }
-  const quality = Number(qualityRange.value)/100;
-  compressProg.style.width='2%';
-  try{
-    setBusy(true);
-    const arrBuf = await f.arrayBuffer();
-    const loading = pdfjsLib.getDocument({data:arrBuf});
-    const pdf = await loading.promise; const total = pdf.numPages;
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({unit:'px',format:'a4'});
-    for(let p=1;p<=total;p++){
-      const page = await pdf.getPage(p);
-      const viewport = page.getViewport({scale:2});
-      const canvas = document.createElement('canvas'); canvas.width=viewport.width; canvas.height=viewport.height;
-      await page.render({canvasContext:canvas.getContext('2d'), viewport}).promise;
-      const dataURL = canvas.toDataURL('image/jpeg', quality);
-      const img = new Image(); img.src = dataURL; await new Promise((res,rej)=>{ img.onload=res; img.onerror=rej; });
-      const pageW = doc.internal.pageSize.getWidth(), pageH = doc.internal.pageSize.getHeight();
-      const ratio = Math.min(pageW / img.width, pageH / img.height);
-      const w = img.width * ratio, h = img.height * ratio, x=(pageW-w)/2, y=(pageH-h)/2;
-      if(p>1) doc.addPage();
-      doc.addImage(dataURL, 'JPEG', x, y, w, h);
-      compressProg.style.width = Math.round((p/total)*100)+'%';
-      await new Promise(r=>setTimeout(r,80));
-    }
-    const out = doc.output('blob'); const fname = f.name.replace(/\.pdf$/i,'') + '-compressed.pdf';
-    await saveBlobSmart(out, fname);
-    compressProg.style.width='0%';
-    setBusy(false);
-  }catch(e){ setBusy(false); alert('Compress failed: '+e.message); compressProg.style.width='0%'; console.error(e); }
-});
-
-/* Utility & init */
-function fileToDataURL(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); }); }
-document.getElementById('mergeClear').addEventListener('click', ()=>mergeInput.value='');
-document.getElementById('splitClear').addEventListener('click', ()=>splitInput.value='');
-document.getElementById('imgToPdfClear').addEventListener('click', ()=>imgToPdfInput.value='');
-document.getElementById('compressClear').addEventListener('click', ()=>compressInput.value='');
-
-let busyCount=0;
-function setBusy(s){ busyCount += s?1:-1; if(busyCount>0) window.onbeforeunload = ()=>'Task in progress'; else window.onbeforeunload = null; }
-
-renderHistory(); renderOrders();
-console.info('PDF Tools (clean) loaded');
+<!-- Bottom ad script duplicate (as requested) -->
+<script type="text/javascript">
+	atOptions = {
+		'key' : 'c533f92842a99236b1cb6736b289861e',
+		'format' : 'iframe',
+		'height' : 50,
+		'width' : 320,
+		'params' : {}
+	};
 </script>
-<script>
-  // ---- download helper ----
-  async function tryDownloadInPage(blobOrUrl, filename){
-    try{
-      let href;
-      // if it's a Blob object
-      if (blobOrUrl && blobOrUrl instanceof Blob){
-        href = URL.createObjectURL(blobOrUrl);
-      } else {
-        // assume string url
-        href = blobOrUrl;
-      }
+<script type="text/javascript" src="//www.highperformanceformat.com/c533f92842a99236b1cb6736b289861e/invoke.js"></script>
 
-      // try in-page download (anchor click)
+<!-- small toast helper -->
+<div id="toast" class="toast"></div>
+
+<script>
+(async function(){
+  const { jsPDF } = window.jspdf;
+  const { PDFDocument } = PDFLib;
+
+  function toast(msg, time=2200){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display='block';
+    setTimeout(()=> t.style.display='none', time);
+  }
+
+  // menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const menuPop = document.getElementById('menuPop');
+  menuToggle.addEventListener('click', e=>{
+    menuPop.style.display = menuPop.style.display === 'block' ? 'none' : 'block';
+  });
+  // about & instagram
+  document.getElementById('aboutBtn').addEventListener('click',(e)=>{
+    e.preventDefault();
+    menuPop.style.display='none';
+    alert("About PDF Tools\\n\\nMade by: Saikiran\\nEmail: saikiranjinde49@gmail.com\\n\\nA simple utility app built by a Diploma 2nd year student to help day-to-day PDF tasks (convert images / text to PDF, merge, split).\\n\\nThank you! ❤️");
+  });
+  document.getElementById('instaBtn').addEventListener('click',(e)=>{
+    e.preventDefault();
+    menuPop.style.display='none';
+    const insta = "https://instagram.com/saikiran.jinde_2706";
+    window.open(insta, '_blank');
+  });
+
+  // ---------- Download helper (robust) ----------
+  function triggerDownloadFromBlob(blob, filename){
+    try{
+      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = href;
-      a.download = filename || 'file';
-      // some browsers require the anchor to be in document
+      a.href = url;
+      a.download = filename;
+      // Ensure anchor is in DOM for WebView compatibility
       document.body.appendChild(a);
       a.click();
       a.remove();
-
-      // revoke blob url later if created
-      if (blobOrUrl && blobOrUrl instanceof Blob) {
-        setTimeout(()=> { try{ URL.revokeObjectURL(href); } catch(e){} }, 30000);
-      }
-
-      // Signal Kodular (or any wrapper) that download was attempted
-      // Format: DOWNLOAD_READY|encodedFilename
-      try{ document.title = "DOWNLOAD_READY|" + encodeURIComponent(filename || ''); } catch(e){}
-
-      // Optionally show message inside page if you have some ui element
-      // qrMsg.textContent = 'Download attempted. If not saved, use "Open in browser".';
-
-    }catch(err){
-      console.error('tryDownloadInPage error', err);
-      try{ document.title = "DOWNLOAD_READY|" + encodeURIComponent(filename || ''); } catch(e){}
+      // fallback: open in new tab if download blocked
+      setTimeout(()=> URL.revokeObjectURL(url), 3000);
+      setTimeout(()=> {
+        // If device didn't prompt download (some WebViews block blob downloads), fallback to open
+        // This may let user long-press and save in some browsers; show toast too.
+        // We try a window.open as a fallback.
+        // Note: Some WebViews block popups; still this improves chances.
+        // Don't spam open; only call when necessary as last resort.
+      }, 1000);
+    }catch(e){
+      try{ window.open(url,'_blank'); }catch(er){}
+      console.error('download failed', e);
     }
   }
-  // ---- end helper ----
+
+  // ---------- Image -> PDF ----------
+  document.getElementById('img2pdf').addEventListener('click', async ()=>{
+    const files = document.getElementById('imgFiles').files;
+    if(!files || files.length===0){ toast("Select image(s) first"); return; }
+    try{
+      const pdf = new jsPDF({unit:'pt', format:'a4'});
+      for(let i=0;i<files.length;i++){
+        const f = files[i];
+        const dataUrl = await fileToDataUrl(f);
+        const img = await loadImage(dataUrl);
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        let w = img.width, h = img.height;
+        const ratio = Math.min(pageWidth/w, pageHeight/h);
+        w = w * ratio;
+        h = h * ratio;
+        const x = (pageWidth - w)/2;
+        const y = (pageHeight - h)/2;
+        if(i>0) pdf.addPage();
+        // Use JPEG fallback for most images
+        pdf.addImage(dataUrl, 'JPEG', x, y, w, h);
+      }
+      // get blob and trigger download with pdftools_ prefix
+      const blob = pdf.output('blob');
+      const outName = `pdftools_images_to_pdf.pdf`;
+      triggerDownloadFromBlob(blob, outName);
+      toast('Saved ' + outName);
+    }catch(err){
+      console.error(err);
+      toast('Image → PDF failed');
+    }
+  });
+
+  document.getElementById('imgPreview').addEventListener('click', async ()=>{
+    const files = document.getElementById('imgFiles').files;
+    if(!files || files.length===0){ toast("Select image(s) first"); return; }
+    const url = URL.createObjectURL(files[0]);
+    window.open(url, '_blank');
+  });
+
+  // ---------- TXT -> PDF ----------
+  async function fileToText(file){
+    return new Promise((res,rej)=>{
+      const r = new FileReader();
+      r.onload = ()=> res(r.result);
+      r.onerror = ()=> rej(r.error);
+      r.readAsText(file);
+    });
+  }
+  document.getElementById('txt2pdf').addEventListener('click', async ()=>{
+    const fileInp = document.getElementById('txtFile');
+    let text = document.getElementById('txtArea').value.trim();
+    if(fileInp.files.length>0){
+      try{ text = await fileToText(fileInp.files[0]); } catch(e){ toast('Failed reading txt'); return; }
+    }
+    if(!text){ toast('No text provided'); return; }
+    try{
+      const pdf = new jsPDF({unit:'pt', format:'a4'});
+      const margin = 40;
+      const pageWidth = pdf.internal.pageSize.getWidth() - margin*2;
+      const lineHeight = 14;
+      const lines = pdf.splitTextToSize(text, pageWidth);
+      let cursor = margin;
+      for(let i=0;i<lines.length;i++){
+        if(cursor + lineHeight > pdf.internal.pageSize.getHeight() - margin){
+          pdf.addPage();
+          cursor = margin;
+        }
+        pdf.text(lines[i], margin, cursor);
+        cursor += lineHeight;
+      }
+      const blob = pdf.output('blob');
+      const outName = `pdftools_text_to_pdf.pdf`;
+      triggerDownloadFromBlob(blob, outName);
+      toast('Saved ' + outName);
+    }catch(e){
+      console.error(e);
+      toast('Text → PDF failed');
+    }
+  });
+  document.getElementById('clearText').addEventListener('click', ()=> document.getElementById('txtArea').value='');
+
+  // ---------- PDF Split (extract range) ----------
+  async function fileToArrayBuffer(file){
+    return new Promise((res,rej)=>{
+      const r = new FileReader();
+      r.onload = ()=> res(r.result);
+      r.onerror = ()=> rej(r.error);
+      r.readAsArrayBuffer(file);
+    });
+  }
+  let lastLoadedPdfPageCount = 0;
+  document.getElementById('countPagesBtn').addEventListener('click', async ()=>{
+    const f = document.getElementById('pdfSplitFile').files[0];
+    if(!f){ toast('Select a PDF first'); return; }
+    try{
+      const arr = await fileToArrayBuffer(f);
+      const srcDoc = await PDFDocument.load(arr);
+      lastLoadedPdfPageCount = srcDoc.getPageCount();
+      document.getElementById('splitHint').textContent = `Loaded PDF — ${lastLoadedPdfPageCount} pages.`;
+      toast('PDF loaded: ' + lastLoadedPdfPageCount + ' pages');
+    }catch(e){
+      console.error(e);
+      toast('Failed to load PDF');
+    }
+  });
+
+  document.getElementById('splitPdfBtn').addEventListener('click', async ()=>{
+    const f = document.getElementById('pdfSplitFile').files[0];
+    if(!f){ toast('Select a PDF first'); return; }
+    const start = parseInt(document.getElementById('splitStart').value||'1',10);
+    const end = parseInt(document.getElementById('splitEnd').value||'1',10);
+    if(isNaN(start)||isNaN(end)|| start<1 || end<start){ toast('Provide valid start and end pages'); return; }
+    try{
+      const arr = await fileToArrayBuffer(f);
+      const srcDoc = await PDFDocument.load(arr);
+      const pageCount = srcDoc.getPageCount();
+      if(start > pageCount || end > pageCount){ toast('Page range exceeds page count: ' + pageCount); return; }
+      const newPdf = await PDFDocument.create();
+      const pagesToCopy = [];
+      for(let p=start-1;p<=end-1;p++) pagesToCopy.push(p);
+      const copied = await newPdf.copyPages(srcDoc, pagesToCopy);
+      copied.forEach(p=> newPdf.addPage(p));
+      const bytes = await newPdf.save();
+      const blob = new Blob([bytes], {type:'application/pdf'});
+      triggerDownloadFromBlob(blob, `pdftools_extracted_${start}_to_${end}.pdf`);
+      toast('Saved extracted_' + start + '_to_' + end + '.pdf');
+    }catch(e){
+      console.error(e);
+      toast('Split failed');
+    }
+  });
+
+  // ---------- PDF Merge ----------
+  document.getElementById('mergeBtn').addEventListener('click', async ()=>{
+    const files = document.getElementById('pdfMergeFiles').files;
+    if(!files || files.length===0){ toast('Select PDF(s) to merge'); return; }
+    try{
+      const merged = await PDFDocument.create();
+      for(let i=0;i<files.length;i++){
+        const arr = await fileToArrayBuffer(files[i]);
+        const src = await PDFDocument.load(arr);
+        const cnt = src.getPageCount();
+        const pages = await merged.copyPages(src, Array.from({length:cnt}, (_,k)=>k));
+        pages.forEach(p=> merged.addPage(p));
+      }
+      const bytes = await merged.save();
+      const blob = new Blob([bytes], {type:'application/pdf'});
+      triggerDownloadFromBlob(blob, 'pdftools_merged.pdf');
+      toast('Saved pdftools_merged.pdf');
+    }catch(e){
+      console.error(e);
+      toast('Merge failed');
+    }
+  });
+
+  // helpers: file -> dataURL or image
+  function fileToDataUrl(file){
+    return new Promise((res,rej)=>{
+      const r = new FileReader();
+      r.onload = ()=> res(r.result);
+      r.onerror = ()=> rej(r.error);
+      r.readAsDataURL(file);
+    });
+  }
+  function loadImage(dataURL){
+    return new Promise((res,rej)=>{
+      const img = new Image();
+      img.onload = ()=> res(img);
+      img.onerror = ()=> rej('img error');
+      img.src = dataURL;
+    });
+  }
+
+  // Placeholders for ad slots (script may override)
+  try{
+    const topSlot = document.getElementById('top-ad-slot');
+    const bottomSlot = document.getElementById('bottom-ad-slot');
+    // If provider script didn't inject, keep the iframe placeholder already present.
+    // If script injects ads you may see them instead.
+  }catch(e){}
+
+})();
 </script>
+
 </body>
-</html>
+            </html>
