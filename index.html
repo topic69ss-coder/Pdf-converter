@@ -405,5 +405,33 @@ function setBusy(s){ busyCount += s?1:-1; if(busyCount>0) window.onbeforeunload 
 renderHistory(); renderOrders();
 console.info('PDF Tools (clean) loaded');
 </script>
+<script>
+// helper: try to download blob or url inside the page and notify Kodular via document.title
+async function tryDownloadInPage(blobOrUrl, filename){
+  try{
+    let href;
+    if (blobOrUrl instanceof Blob){
+      href = URL.createObjectURL(blobOrUrl);
+    } else {
+      href = blobOrUrl; // assume URL string
+    }
+
+    const a = document.createElement('a');
+    a.href = href;
+    a.download = filename || 'file';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    if (blobOrUrl instanceof Blob) setTimeout(()=> URL.revokeObjectURL(href), 30000);
+
+    // signal Kodular that download was attempted and filename (fallback)
+    document.title = "DOWNLOAD_READY|" + encodeURIComponent(filename || '');
+  }catch(err){
+    console.error('download failed', err);
+    document.title = "DOWNLOAD_READY|" + encodeURIComponent(filename || '');
+  }
+}
+</script>
 </body>
 </html>
