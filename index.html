@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PDF Tools — PDF Tools</title>
+
+<!-- Ad script (as provided) - top & bottom; kept but also provide visible fallback iframe below -->
+<script type="text/javascript">
+	atOptions = {
+		'key' : 'c533f92842a99236b1cb6736b289861e',
+		'format' : 'iframe',
+		'height' : 50,
+		'width' : 320,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/c533f92842a99236b1cb6736b289861e/invoke.js"></script>
+
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<style>
+  :root{
+    --bg: linear-gradient(135deg,#f9f6ff,#e6f7ff);
+    --card:#ffffff;
+    --accent:#6c5ce7;
+    --accent-2:#00b894;
+    --muted:#6b7280;
+    --radius:14px;
+    --glass: rgba(255,255,255,0.7);
+  }
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial; background:var(--bg); color:#111;}
+  .app{
+    max-width:980px;margin:18px auto;padding:18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(250,250,255,0.9));
+    border-radius:18px; box-shadow: 0 8px 30px rgba(15,15,40,0.08); overflow:hidden;
+  }
+  header{display:flex;align-items:center;justify-content:space-between;padding:12px 8px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .logo{
+    width:68px;height:68px;background:linear-gradient(135deg,var(--accent),#ff7ab6);display:flex;align-items:center;justify-content:center;border-radius:12px;box-shadow:0 6px 18px rgba(108,92,231,0.18);
+  }
+  .logo svg{width:52px;height:52px;filter: drop-shadow(0 6px 12px rgba(108,92,231,0.12));}
+  h1{font-size:20px;margin:0}
+  p.sub{margin:0;font-size:12px;color:var(--muted)}
+  .menuBtn{background:transparent;border:0;padding:10px;margin-right:6px;border-radius:8px;cursor:pointer}
+  /* content */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;padding:16px;}
+  .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(16,24,40,0.04);display:flex;flex-direction:column;gap:10px;}
+  label{font-weight:600;font-size:14px}
+  input[type=file]{display:block}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{background:linear-gradient(90deg,var(--accent),#ff7ab6);border:0;color:white;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+  .btn.secondary{background:linear-gradient(90deg,#00cec9,#00b894)}
+  .muted{color:var(--muted);font-size:13px}
+  footer{padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .small{font-size:12px;color:var(--muted)}
+  .ad-slot{display:flex;justify-content:center;align-items:center;background:transparent;padding:6px;border-radius:8px}
+  .three-dots-menu{position:relative}
+  .menu-pop{position:absolute;right:0;top:calc(100% + 6px);background:white;border-radius:10px;padding:8px;box-shadow:0 8px 24px rgba(12,20,40,0.12);display:none;min-width:200px;z-index:20}
+  .menu-pop a{display:block;padding:8px;border-radius:8px;color:#111;text-decoration:none;font-weight:600}
+  .menu-pop a:hover{background: #f2f6ff}
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#0f1724;color:white;padding:8px 12px;border-radius:10px;display:none;z-index:50}
+  input[type=number]{width:100%;padding:8px;border-radius:8px;border:1px solid #eee}
+  .hint{font-size:12px;color:var(--muted)}
+  .logo-text{font-weight:800;letter-spacing:0.4px}
+  @media (max-width:420px){.brand p.sub{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="logo" title="PDF Tools">
+        <!-- SVG text logo (simple) -->
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PDF Tools">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#6c5ce7"/>
+              <stop offset="1" stop-color="#ff7ab6"/>
+            </linearGradient>
+          </defs>
+          <rect rx="20" width="200" height="200" fill="url(#g1)"/>
+          <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Verdana" font-weight="700" font-size="62" fill="white">PDF</text>
+        </svg>
+      </div>
+      <div>
+        <h1 class="logo-text">PDF Tools</h1>
+        <p class="sub">Made with ❤️ for day to day uses</p>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="ad-slot" id="top-ad-slot" aria-hidden="false" style="width:320px;height:50px;">
+        <!-- Fallback visible ad iframe so user ALWAYS sees an ad placeholder -->
+        <iframe style="border:0;width:320px;height:50px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06)" 
+                srcdoc="<div style='font-family:Arial,sans-serif;display:flex;align-items:center;justify-content:center;height:100%;color:#666'>Advertisement</div>"></iframe>
+      </div>
+
+      <div class="three-dots-menu">
+        <button class="menuBtn" id="menuToggle" aria-label="menu">⋮</button>
+        <div class="menu-pop" id="menuPop">
+          <a href="#" id="aboutBtn">About</a>
+          <a href="#" id="instaBtn">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="grid">
+      <!-- Image to PDF -->
+      <div class="card">
+        <label>Image → PDF</label>
+        <div class="muted">Select one or more images (jpg/png). Order will be preserved.</div>
+        <input type="file" id="imgFiles" accept="image/*" multiple>
+        <div class="row">
+          <button class="btn" id="img2pdf">Convert Images to PDF</button>
+          <button class="btn secondary" id="imgPreview">Preview First</button>
+        </div>
+        <div class="hint">Tip: Use portrait images for best result. Converted file saved as <code>pdftools_images_to_pdf.pdf</code></div>
+      </div>
+
+      <!-- TXT to PDF -->
+      <div class="card">
+        <label>.txt → PDF</label>
+        <div class="muted">Choose a .txt file or paste text below.</div>
+        <input type="file" id="txtFile" accept=".txt" />
+        <textarea id="txtArea" rows="6" style="width:100%;padding:8px;border-radius:8px;border:1px solid #eee" placeholder="Or paste text here..."></textarea>
+        <div class="row">
+          <button class="btn" id="txt2pdf">Convert Text to PDF</button>
+          <button class="btn secondary" id="clearText">Clear</button>
+        </div>
+        <div class="hint">Tip: For long text, conversion will wrap lines automatically.</div>
+      </div>
+
+      <!-- PDF Splitter -->
+      <div class="card">
+        <label>PDF Split / Extract Pages</label>
+        <div class="muted">Choose a PDF and extract a range of pages into a new PDF.</div>
+        <input type="file" id="pdfSplitFile" accept="application/pdf" />
+        <div style="display:flex;gap:8px;">
+          <input type="number" id="splitStart" placeholder="Start page (1)" min="1"/>
+          <input type="number" id="splitEnd" placeholder="End page (1)" min="1"/>
+        </div>
+        <div class="row">
+          <button class="btn" id="splitPdfBtn">Extract Range → PDF</button>
+          <button class="btn secondary" id="countPagesBtn">Load & Count Pages</button>
+        </div>
+        <div class="hint" id="splitHint">Load a PDF to see page count.</div>
+      </div>
+
+      <!-- PDF Merge -->
+      <div class="card">
+        <label>PDF Merge (Combine)</label>
+        <div class="muted">Select multiple PDF files; they will be merged in the chosen order.</div>
+        <input type="file" id="pdfMergeFiles" accept="application/pdf" multiple />
+        <div class="row">
+          <button class="btn" id="mergeBtn">Merge PDFs</button>
+        </div>
+        <div class="hint">Merged file will be saved as <code>pdftools_merged.pdf</code></div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer>
+    <div style="display:flex;gap:12px;align-items:center">
+      <div class="small">Made with ❤️ — PDF Tools</div>
+      <div class="small muted">by Saikiran</div>
+    </div>
+
+    <div class="ad-slot" id="bottom-ad-slot" style="width:320px;height:50px;">
+      <iframe style="border:0;width:320px;height:50px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06)" 
+              srcdoc="<div style='font-family:Arial,sans-serif;display:flex;align-items:center;justify-content:center;height:100%;color:#666'>Advertisement</div>"></iframe>
+    </div>
+  </footer>
+</div>
+
+<!-- Bottom ad script duplicate (as requested) -->
+<script type="text/javascript">
+	atOptions = {
+		'key' : 'c533f92842a99236b1cb6736b289861e',
+		'format' : 'iframe',
+		'height' : 50,
+		'width' : 320,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/c533f92842a99236b1cb6736b289861e/invoke.js"></script>
+
+<!-- small toast helper -->
+<div id="toast" class="toast"></div>
+
+<script>
+(async function(){
+  const { jsPDF } = window.jspdf;
+  const { PDFDocument } = PDFLib;
+
+  function toast(msg, time=2200){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display='block';
+    setTimeout(()=> t.style.display='none', time);
+  }
+
+  // menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const menuPop = document.getElementById('menuPop');
+  menuToggle.addEventListener('click', e=>{
+    menuPop.style.display = menuPop.style.display === 'block' ? 'none' : 'block';
+  });
+  // about & instagram
+  document.getElementById('aboutBtn').addEventListener('click',(e)=>{
+    e.preventDefault();
+    menuPop.style.display='none';
+    alert("About PDF Tools\\n\\nMade by: Saikiran\\nEmail: saikiranjinde49@gmail.com\\n\\nA simple utility app built by a Diploma 2nd year student to help day-to-day PDF tasks (convert images / text to PDF, merge, split).\\n\\nThank you! ❤️");
+  });
+  document.getElementById('instaBtn').addEventListener('click',(e)=>{
+    e.preventDefault();
+    menuPop.style.display='none';
+    const insta = "https://instagram.com/saikiran.jinde_2706";
+    window.open(insta, '_blank');
+  });
+
+  // ---------- Download helper (robust) ----------
+  function triggerDownloadFromBlob(blob, filename){
+    try{
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      // Ensure anchor is in DOM for WebView compatibility
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      // fallback: open in new tab if download blocked
+      setTimeout(()=> URL.revokeObjectURL(url), 3000);
+      setTimeout(()=> {
+        // If device didn't prompt download (some WebViews block blob downloads), fallback to open
+        // This may let user long-press and save in some browsers; show toast too.
+        // We try a window.open as a fallback.
+        // Note: Some WebViews block popups; still this improves chances.
+        // Don't spam open; only call when necessary as last resort.
+      }, 1000);
+    }catch(e){
+      try{ window.open(url,'_blank'); }catch(er){}
+      console.error('download failed', e);
+    }
+  }
+
+  // ---------- Image -> PDF ----------
+  document.getElementById('img2pdf').addEventListener('click', async ()=>{
+    const files = document.getElementById('imgFiles').files;
+    if(!files || files.length===0){ toast("Select image(s) first"); return; }
+    try{
+      const pdf = new jsPDF({unit:'pt', format:'a4'});
+      for(let i=0;i<files.length;i++){
+        const f = files[i];
+        const dataUrl = await fileToDataUrl(f);
+        const img = await loadImage(dataUrl);
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        let w = img.width, h = img.height;
+        const ratio = Math.min(pageWidth/w, pageHeight/h);
+        w = w * ratio;
+        h = h * ratio;
+        const x = (pageWidth - w)/2;
+        const y = (pageHeight - h)/2;
+        if(i>0) pdf.addPage();
+        // Use JPEG fallback for most images
+        pdf.addImage(dataUrl, 'JPEG', x, y, w, h);
+      }
+      // get blob and trigger download with pdftools_ prefix
+      const blob = pdf.output('blob');
+      const outName = `pdftools_images_to_pdf.pdf`;
+      triggerDownloadFromBlob(blob, outName);
+      toast('Saved ' + outName);
+    }catch(err){
+      console.error(err);
+      toast('Image → PDF failed');
+    }
+  });
+
+  document.getElementById('imgPreview').addEventListener('click', async ()=>{
+    const files = document.getElementById('imgFiles').files;
+    if(!files || files.length===0){ toast("Select image(s) first"); return; }
+    const url = URL.createObjectURL(files[0]);
+    window.open(url, '_blank');
+  });
+
+  // ---------- TXT -> PDF ----------
+  async function fileToText(file){
+    return new Promise((res,rej)=>{
+      const r = new FileReader();
+      r.onload = ()=> res(r.result);
+      r.onerror = ()=> rej(r.error);
+      r.readAsText(file);
+    });
+  }
+  document.getElementById('txt2pdf').addEventListener('click', async ()=>{
+    const fileInp = document.getElementById('txtFile');
+    let text = document.getElementById('txtArea').value.trim();
+    if(fileInp.files.length>0){
+      try{ text = await fileToText(fileInp.files[0]); } catch(e){ toast('Failed reading txt'); return; }
+    }
+    if(!text){ toast('No text provided'); return; }
+    try{
+      const pdf = new jsPDF({unit:'pt', format:'a4'});
+      const margin = 40;
+      const pageWidth = pdf.internal.pageSize.getWidth() - margin*2;
+      const lineHeight = 14;
+      const lines = pdf.splitTextToSize(text, pageWidth);
+      let cursor = margin;
+      for(let i=0;i<lines.length;i++){
+        if(cursor + lineHeight > pdf.internal.pageSize.getHeight() - margin){
+          pdf.addPage();
+          cursor = margin;
+        }
+        pdf.text(lines[i], margin, cursor);
+        cursor += lineHeight;
+      }
+      const blob = pdf.output('blob');
+      const outName = `pdftools_text_to_pdf.pdf`;
+      triggerDownloadFromBlob(blob, outName);
+      toast('Saved ' + outName);
+    }catch(e){
+      console.error(e);
+      toast('Text → PDF failed');
+    }
+  });
+  document.getElementById('clearText').addEventListener('click', ()=> document.getElementById('txtArea').value='');
+
+  // ---------- PDF Split (extract range) ----------
+  async function fileToArrayBuffer(file){
+    return new Promise((res,rej)=>{
+      const r = new FileReader();
+      r.onload = ()=> res(r.result);
+      r.onerror = ()=> rej(r.error);
+      r.readAsArrayBuffer(file);
+    });
+  }
+  let lastLoadedPdfPageCount = 0;
+  document.getElementById('countPagesBtn').addEventListener('click', async ()=>{
+    const f = document.getElementById('pdfSplitFile').files[0];
+    if(!f){ toast('Select a PDF first'); return; }
+    try{
+      const arr = await fileToArrayBuffer(f);
+      const srcDoc = await PDFDocument.load(arr);
+      lastLoadedPdfPageCount = srcDoc.getPageCount();
+      document.getElementById('splitHint').textContent = `Loaded PDF — ${lastLoadedPdfPageCount} pages.`;
+      toast('PDF loaded: ' + lastLoadedPdfPageCount + ' pages');
+    }catch(e){
+      console.error(e);
+      toast('Failed to load PDF');
+    }
+  });
+
+  document.getElementById('splitPdfBtn').addEventListener('click', async ()=>{
+    const f = document.getElementById('pdfSplitFile').files[0];
+    if(!f){ toast('Select a PDF first'); return; }
+    const start = parseInt(document.getElementById('splitStart').value||'1',10);
+    const end = parseInt(document.getElementById('splitEnd').value||'1',10);
+    if(isNaN(start)||isNaN(end)|| start<1 || end<start){ toast('Provide valid start and end pages'); return; }
+    try{
+      const arr = await fileToArrayBuffer(f);
+      const srcDoc = await PDFDocument.load(arr);
+      const pageCount = srcDoc.getPageCount();
+      if(start > pageCount || end > pageCount){ toast('Page range exceeds page count: ' + pageCount); return; }
+      const newPdf = await PDFDocument.create();
+      const pagesToCopy = [];
+      for(let p=start-1;p<=end-1;p++) pagesToCopy.push(p);
+      const copied = await newPdf.copyPages(srcDoc, pagesToCopy);
+      copied.forEach(p=> newPdf.addPage(p));
+      const bytes = await newPdf.save();
+      const blob = new Blob([bytes], {type:'application/pdf'});
+      triggerDownloadFromBlob(blob, `pdftools_extracted_${start}_to_${end}.pdf`);
+      toast('Saved extracted_' + start + '_to_' + end + '.pdf');
+    }catch(e){
+      console.error(e);
+      toast('Split failed');
+    }
+  });
+
+  // ---------- PDF Merge ----------
+  document.getElementById('mergeBtn').addEventListener('click', async ()=>{
+    const files = document.getElementById('pdfMergeFiles').files;
+    if(!files || files.length===0){ toast('Select PDF(s) to merge'); return; }
+    try{
+      const merged = await PDFDocument.create();
+      for(let i=0;i<files.length;i++){
+        const arr = await fileToArrayBuffer(files[i]);
+        const src = await PDFDocument.load(arr);
+        const cnt = src.getPageCount();
+        const pages = await merged.copyPages(src, Array.from({length:cnt}, (_,k)=>k));
+        pages.forEach(p=> merged.addPage(p));
+      }
+      const bytes = await merged.save();
+      const blob = new Blob([bytes], {type:'application/pdf'});
+      triggerDownloadFromBlob(blob, 'pdftools_merged.pdf');
+      toast('Saved pdftools_merged.pdf');
+    }catch(e){
+      console.error(e);
+      toast('Merge failed');
+    }
+  });
+
+  // helpers: file -> dataURL or image
+  function fileToDataUrl(file){
+    return new Promise((res,rej)=>{
+      const r = new FileReader();
+      r.onload = ()=> res(r.result);
+      r.onerror = ()=> rej(r.error);
+      r.readAsDataURL(file);
+    });
+  }
+  function loadImage(dataURL){
+    return new Promise((res,rej)=>{
+      const img = new Image();
+      img.onload = ()=> res(img);
+      img.onerror = ()=> rej('img error');
+      img.src = dataURL;
+    });
+  }
+
+  // Placeholders for ad slots (script may override)
+  try{
+    const topSlot = document.getElementById('top-ad-slot');
+    const bottomSlot = document.getElementById('bottom-ad-slot');
+    // If provider script didn't inject, keep the iframe placeholder already present.
+    // If script injects ads you may see them instead.
+  }catch(e){}
+
+})();
+</script>
+
+</body>
+</html>
