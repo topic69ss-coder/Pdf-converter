@@ -406,32 +406,45 @@ renderHistory(); renderOrders();
 console.info('PDF Tools (clean) loaded');
 </script>
 <script>
-// helper: try to download blob or url inside the page and notify Kodular via document.title
-async function tryDownloadInPage(blobOrUrl, filename){
-  try{
-    let href;
-    if (blobOrUrl instanceof Blob){
-      href = URL.createObjectURL(blobOrUrl);
-    } else {
-      href = blobOrUrl; // assume URL string
+  // ---- download helper ----
+  async function tryDownloadInPage(blobOrUrl, filename){
+    try{
+      let href;
+      // if it's a Blob object
+      if (blobOrUrl && blobOrUrl instanceof Blob){
+        href = URL.createObjectURL(blobOrUrl);
+      } else {
+        // assume string url
+        href = blobOrUrl;
+      }
+
+      // try in-page download (anchor click)
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = filename || 'file';
+      // some browsers require the anchor to be in document
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      // revoke blob url later if created
+      if (blobOrUrl && blobOrUrl instanceof Blob) {
+        setTimeout(()=> { try{ URL.revokeObjectURL(href); } catch(e){} }, 30000);
+      }
+
+      // Signal Kodular (or any wrapper) that download was attempted
+      // Format: DOWNLOAD_READY|encodedFilename
+      try{ document.title = "DOWNLOAD_READY|" + encodeURIComponent(filename || ''); } catch(e){}
+
+      // Optionally show message inside page if you have some ui element
+      // qrMsg.textContent = 'Download attempted. If not saved, use "Open in browser".';
+
+    }catch(err){
+      console.error('tryDownloadInPage error', err);
+      try{ document.title = "DOWNLOAD_READY|" + encodeURIComponent(filename || ''); } catch(e){}
     }
-
-    const a = document.createElement('a');
-    a.href = href;
-    a.download = filename || 'file';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-
-    if (blobOrUrl instanceof Blob) setTimeout(()=> URL.revokeObjectURL(href), 30000);
-
-    // signal Kodular that download was attempted and filename (fallback)
-    document.title = "DOWNLOAD_READY|" + encodeURIComponent(filename || '');
-  }catch(err){
-    console.error('download failed', err);
-    document.title = "DOWNLOAD_READY|" + encodeURIComponent(filename || '');
   }
-}
+  // ---- end helper ----
 </script>
 </body>
 </html>
